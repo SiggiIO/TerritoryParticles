@@ -116,7 +116,15 @@ public class Renderer implements Listener {
 		if (!columnsToRecalculate.isEmpty() && now - lastRecalculate > 10000L) {
 			for (TPointColumn column : columnsToRecalculate) {
 				if (columns.contains(column)) {
-					doRecalculateColumn(column);
+					int minY = 0;
+					int maxY = 0;
+					String worldName = column.getWorld();
+					World world = Bukkit.getWorld(worldName);
+					if (world != null) {
+						minY = world.getMinHeight();
+						maxY = world.getMaxHeight();
+					}
+					doRecalculateColumn(column, minY, maxY);
 				}
 			}
 			columnsToRecalculate.clear();
@@ -143,7 +151,7 @@ public class Renderer implements Listener {
 		}
 	}
 
-	private void doRecalculateColumn(TPointColumn column) {
+	private void doRecalculateColumn(TPointColumn column, int minY, int maxY) {
 		if (!column.areRequiredChunksLoaded()) {
 			return;
 		}
@@ -151,7 +159,7 @@ public class Renderer implements Listener {
 		Set<TBlockColumn> blockColumns = column.getBlockColumns();
 		boolean previouslyBlocked = true;
 		derp:
-		for (int y = 0; y < 256; y++) {
+		for (int y = minY; y <= maxY; y++) {
 			boolean blocked = false;
 			for (TBlockColumn blockColumn : blockColumns) {
 				Block bl = blockColumn.getBlock(y).getBukkitBlock();

@@ -166,7 +166,7 @@ public class Renderer implements Listener {
 				if (bl == null) { // should never be null
 					break derp;
 				}
-				if (!isAir(bl.getType())) {
+				if (isBlocking(bl.getType())) {
 					blocked = true;
 					break;
 				}
@@ -178,14 +178,12 @@ public class Renderer implements Listener {
 		}
 	}
 
-	private boolean isAir(Material material) {
+	private boolean isBlocking(Material material) {
 		switch (material) {
-			case AIR:
-			case CAVE_AIR:
-			case VOID_AIR:
-				return true;
-			default:
+			case BARRIER:
 				return false;
+			default:
+				return material.isOccluding();
 		}
 	}
 

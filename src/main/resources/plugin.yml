@@ -1,0 +1,16 @@
+name: TerritoryParticles
+main: io.siggi.territoryparticles.TerritoryParticles
+version: ${project.version}
+author: Siggi
+description: A Plugin.
+softdepend: [Factions, GriefPrevention]
+api-version: 1.13
+#depend: [NBTTool]
+#permissions:
+#    sample.permission.node:
+#        description: Allow the player to do a certain thing.
+#        default: op
+commands:
+    territoryparticles:
+        description: A sample command
+        usage: /<command>
